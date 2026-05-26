@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Tastiera del Computer – Guida Interattiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:      #0A1628;
+  --navy-mid:  #0D1F38;
+  --teal:      #00D4AA;
+  --amber:     #F5A623;
+  --off-white: #F7F7F2;
+  --muted:     rgba(247,247,242,0.65);
+  --key-bg:    #1a2f4a;
+  --key-border:#2a4a6a;
+  --key-hover: #22406a;
+  --key-active:#00D4AA;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--navy);
+  color: var(--off-white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+header {
+  background: linear-gradient(135deg, #0A1628 0%, #0D1F38 100%);
+  border-bottom: 1px solid rgba(0,212,170,0.2);
+  padding: 28px 40px;
+  text-align: center;
+}
+header h1 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  color: var(--off-white);
+  line-height: 1.2;
+}
+header h1 span { color: var(--teal); }
+header p {
+  margin-top: 10px;
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--muted);
+}
+
+/* ── LAYOUT ── */
+.main-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px 28px;
+}
+
+@media (max-width: 1100px) {
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── KEYBOARD AREA ── */
+.keyboard-wrapper {
+  background: rgba(13,31,56,0.8);
+  border: 1px solid rgba(0,212,170,0.15);
+  border-radius: 18px;
+  padding: 28px 20px;
+}
+
+.keyboard-hint {
+  text-align: center;
+  font-size: 17px;
+  color: var(--teal);
+  margin-bottom: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.keyboard-hint span {
+  display: inline-block;
+  background: rgba(0,212,170,0.12);
+  border: 1px solid rgba(0,212,170,0.3);
+  border-radius: 8px;
+  padding: 6px 18px;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+/* ── KEYBOARD ROWS ── */
+.kb-row {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+/* ── KEY ── */
+.key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--key-bg);
+  border: 1px solid var(--key-border);
+  border-bottom: 3px solid rgba(0,0,0,0.4);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+  position: relative;
+  min-height: 52px;
+  min-width: 46px;
+  padding: 4px 6px;
+  text-align: center;
+}
+
+.key:hover {
+  background: var(--key-hover);
+  border-color: rgba(0,212,170,0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,212,170,0.15);
+}
+
+.key.active, .key:active {
+  background: rgba(0,212,170,0.22);
+  border-color: var(--teal);
+  transform: translateY(1px);
+  border-bottom-width: 1px;
+  box-shadow: 0 0 0 2px rgba(0,212,170,0.35);
+}
+
+.key.selected {
+  background: rgba(0,212,170,0.18);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px rgba(0,212,170,0.4);
+}
+
+.key .key-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--off-white);
+  line-height: 1.2;
+  pointer-events: none;
+}
+.key .key-sub {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Special key color groups */
+.key.fn-key .key-label { color: #88bbff; font-size: 11px; }
+.key.mod-key { background: #152035; }
+.key.mod-key .key-label { color: #e0c070; }
+.key.space-key { background: #152035; }
+.key.danger-key { background: #1f1530; }
+.key.danger-key .key-label { color: #ff8888; }
+.key.nav-key { background: #101e30; }
+.key.nav-key .key-label { color: #88ddff; font-size: 12px; }
+.key.num-key { background: #0f1e38; }
+
+/* Width variants */
+.key.w-backspace { min-width: 90px; }
+.key.w-tab       { min-width: 72px; }
+.key.w-caps      { min-width: 84px; }
+.key.w-enter     { min-width: 96px; }
+.key.w-lshift    { min-width: 108px; }
+.key.w-rshift    { min-width: 122px; }
+.key.w-lctrl     { min-width: 72px; }
+.key.w-rctrl     { min-width: 72px; }
+.key.w-space     { min-width: 300px; }
+.key.w-win       { min-width: 56px; }
+
+/* ── KEY GROUPS SEPARATOR ── */
+.kb-gap { width: 14px; flex-shrink: 0; }
+
+/* ── INFO PANEL ── */
+.info-panel {
+  position: sticky;
+  top: 24px;
+  background: rgba(13,31,56,0.9);
+  border: 1px solid rgba(0,212,170,0.2);
+  border-radius: 18px;
+  padding: 28px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.info-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  opacity: 0.6;
+}
+.info-empty .big-icon {
+  font-size: 60px;
+}
+.info-empty p {
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.info-content { display: none; flex-direction: column; gap: 18px; }
+.info-content.visible { display: flex; }
+
+.info-key-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,212,170,0.15);
+  border: 2px solid var(--teal);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--teal);
+  min-width: 80px;
+  max-width: 100%;
+  word-break: break-all;
+  text-align: center;
+}
+
+.info-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--off-white);
+  line-height: 1.3;
+}
+
+.info-desc {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.info-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tip-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: rgba(0,212,170,0.06);
+  border: 1px solid rgba(0,212,170,0.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--off-white);
+}
+.tip-item .tip-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.info-group-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber);
+  background: rgba(245,166,35,0.12);
+  border-radius: 6px;
+  padding: 3px 10px;
+}
+
+/* ── GROUPS LEGEND ── */
+.legend {
+  max-width: 1400px;
+  margin: 0 auto 28px;
+  padding: 0 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.legend-title {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-right: 4px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  text-align: center;
+  padding: 32px 24px;
+  border-top: 1px solid rgba(0,212,170,0.12);
+  color: var(--muted);
+  font-size: 15px;
+}
+footer strong { color: var(--teal); }
+
+/* ── PULSE animation for the empty state icon ── */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.08); opacity: 0.9; }
+}
+.big-icon { animation: pulse 2.5s ease-in-out infinite; }
+
+/* scrollbar style */
+.keyboard::-webkit-scrollbar { height: 4px; }
+.keyboard::-webkit-scrollbar-track { background: transparent; }
+.keyboard::-webkit-scrollbar-thumb { background: rgba(0,212,170,0.3); border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🖥️ La <span>Tastiera</span> del Computer</h1>
+  <p>Clicca su un tasto per scoprire a cosa serve — Guida per principianti</p>
+</header>
+
+<div class="legend">
+  <span class="legend-title">Gruppi di tasti:</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#1a2f4a;border:1px solid #2a4a6a"></span>Lettere e numeri</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#88bbff;width:12px;height:12px;border-radius:3px"></span>Tasti funzione (F1–F12)</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#e0c070;width:12px;height:12px;border-radius:3px"></span>Modificatori (Ctrl, Alt…)</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#ff8888;width:12px;height:12px;border-radius:3px"></span>Cancella / Esc</span>
+  <span class="legend-item"><span class="legend-dot" style="background:#88ddff;width:12px;height:12px;border-radius:3px"></span>Navigazione</span>
+</div>
+
+<div class="main-layout">
+
+  <!-- KEYBOARD -->
+  <div class="keyboard-wrapper">
+    <p class="keyboard-hint"><span>👆 Clicca su qualsiasi tasto per sapere a cosa serve</span></p>
+    <div class="keyboard" id="keyboard">
+
+      <!-- ROW 0: Esc + F-keys -->
+      <div class="kb-row" id="row0"></div>
+
+      <!-- ROW 1: Numbers -->
+      <div class="kb-row" id="row1"></div>
+
+      <!-- ROW 2: QWERTY -->
+      <div class="kb-row" id="row2"></div>
+
+      <!-- ROW 3: ASDF -->
+      <div class="kb-row" id="row3"></div>
+
+      <!-- ROW 4: ZXCV -->
+      <div class="kb-row" id="row4"></div>
+
+      <!-- ROW 5: Bottom -->
+      <div class="kb-row" id="row5"></div>
+
+      <!-- ROW 6: Navigation arrows (separate group) -->
+      <div class="kb-row" id="row6" style="margin-top:10px;"></div>
+
+    </div>
+  </div>
+
+  <!-- INFO PANEL -->
+  <div class="info-panel" id="infoPanel">
+    <div class="info-empty" id="infoEmpty">
+      <div class="big-icon">⌨️</div>
+      <p>Clicca su un tasto della tastiera per vedere la sua spiegazione qui!</p>
+    </div>
+    <div class="info-content" id="infoContent">
+      <div id="infoGroupTag" class="info-group-tag"></div>
+      <div id="infoKeyBadge" class="info-key-badge"></div>
+      <div id="infoTitle" class="info-title"></div>
+      <div id="infoDesc" class="info-desc"></div>
+      <div id="infoTips" class="info-tips"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Corso di informatica per adulti &nbsp;·&nbsp; <strong>IIS Gregorio Mendel</strong> — Villa Cortese &nbsp;·&nbsp; Clicca su ogni tasto per imparare!</p>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════
+//  KEY DATABASE
+// ═══════════════════════════════════════════════
+const keyData = {
+  "Esc": {
+    title: "Escape — Tasto di Fuga",
+    group: "Tasto speciale",
+    desc: "Il tasto Esc serve a <strong>annullare</strong> o <strong>uscire</strong> da una situazione. Se qualcosa è andato storto, premi Esc per tornare indietro.",
+    tips: [
+      { icon: "🚪", text: "Chiude i menu aperti per sbaglio" },
+      { icon: "❌", text: "Annulla una finestra di dialogo senza fare nulla" },
+      { icon: "🎬", text: "Esce dalla modalità schermo intero di un video" },
+      { icon: "💡", text: "Regola pratica: <em>\"Qualcosa va male? Premi Esc!\"</em>" },
+    ]
+  },
+  "F1": {
+    title: "F1 — Aiuto!",
+    group: "Tasto funzione",
+    desc: "Il tasto F1 apre la <strong>guida in linea</strong> del programma che stai usando. È come chiedere aiuto al computer.",
+    tips: [
+      { icon: "❓", text: "Apre la guida di Word, Excel, Windows…" },
+      { icon: "📖", text: "Mostra istruzioni su come usare il programma" },
+      { icon: "💡", text: "Utile quando non sai come fare qualcosa" },
+    ]
+  },
+  "F2": {
+    title: "F2 — Rinomina",
+    group: "Tasto funzione",
+    desc: "Il tasto F2 serve a <strong>rinominare</strong> un file o una cartella. Prima seleziona l'elemento, poi premi F2 e scrivi il nuovo nome.",
+    tips: [
+      { icon: "✏️", text: "Seleziona un file → premi F2 → scrivi il nuovo nome" },
+      { icon: "⏎", text: "Premi Invio per confermare il nuovo nome" },
+    ]
+  },
+  "F5": {
+    title: "F5 — Aggiorna / Ricarica",
+    group: "Tasto funzione",
+    desc: "Il tasto F5 <strong>aggiorna</strong> la pagina o il programma. Nel browser, ricarica la pagina web per vedere gli ultimi contenuti.",
+    tips: [
+      { icon: "🔄", text: "Nel browser: ricarica la pagina web" },
+      { icon: "📧", text: "Nella posta elettronica: controlla nuovi messaggi" },
+      { icon: "💡", text: "Se una pagina sembra \"bloccata\", premi F5" },
+    ]
+  },
+  "F11": {
+    title: "F11 — Schermo Intero",
+    group: "Tasto funzione",
+    desc: "Il tasto F11 espande il browser a <strong>schermo intero</strong>, nascondendo barre e menu. Premi di nuovo F11 per tornare alla vista normale.",
+    tips: [
+      { icon: "🖥️", text: "Utile per guardare video o leggere articoli" },
+      { icon: "↩️", text: "Premi di nuovo F11 per uscire dallo schermo intero" },
+    ]
+  },
+  "F12": {
+    title: "F12 — Strumenti sviluppatore",
+    group: "Tasto funzione",
+    desc: "Il tasto F12 apre gli strumenti per sviluppatori nel browser. Per la maggior parte degli utenti non è necessario — ma capita di premerlo per sbaglio.",
+    tips: [
+      { icon: "🔧", text: "Apre una finestra tecnica nel browser" },
+      { icon: "❌", text: "Se si apre per sbaglio, premi di nuovo F12 o Esc per chiuderla" },
+    ]
+  },
+  "Backspace": {
+    title: "Backspace — Cancella a sinistra",
+    group: "Cancellazione",
+    desc: "Il tasto Backspace cancella il <strong>carattere a sinistra</strong> del cursore (la lineetta lampeggiante). È uno dei tasti che userai di più!",
+    tips: [
+      { icon: "⬅️", text: "Cancella il carattere appena scritto" },
+      { icon: "🔤", text: "Tieni premuto per cancellare più caratteri di fila" },
+      { icon: "🌐", text: "Nel browser: torna alla pagina precedente (attenzione!)" },
+      { icon: "💡", text: "Se hai fatto un errore di scrittura, premi Backspace per correggerlo" },
+    ]
+  },
+  "Tab": {
+    title: "Tab — Tabulazione",
+    group: "Navigazione testo",
+    desc: "Il tasto Tab inserisce uno <strong>spazio grande</strong> (rientro) nel testo, oppure sposta il cursore al campo successivo in un modulo.",
+    tips: [
+      { icon: "→", text: "Nei moduli online: passa da un campo al successivo (es. Nome → Email → Password)" },
+      { icon: "📝", text: "In Word: crea un rientro nel testo" },
+      { icon: "🖥️", text: "Tieni premuto Alt + Tab per passare tra i programmi aperti" },
+    ]
+  },
+  "CapsLock": {
+    title: "Caps Lock — Lettere Maiuscole",
+    group: "Modifica testo",
+    desc: "Il tasto Caps Lock <strong>blocca</strong> le lettere maiuscole. Quando è attivo, tutto ciò che scrivi appare in MAIUSCOLO. Premi di nuovo per disattivarlo.",
+    tips: [
+      { icon: "🔠", text: "Spia luminosa sulla tastiera: se è accesa, Caps Lock è attivo" },
+      { icon: "⚠️", text: "Attenzione: con Caps Lock attivo le password non funzionano!" },
+      { icon: "💡", text: "Per una sola lettera maiuscola usa il tasto Shift, non Caps Lock" },
+    ]
+  },
+  "Enter": {
+    title: "Invio (Enter) — Conferma o vai a capo",
+    group: "Tasto fondamentale",
+    desc: "Il tasto Invio è uno dei più importanti! Serve a <strong>confermare</strong> un'azione o ad andare a <strong>capo riga</strong> nel testo.",
+    tips: [
+      { icon: "✅", text: "Conferma la tua scelta (es. dopo aver scritto la password)" },
+      { icon: "↩️", text: "Nel testo: va a capo e inizia un nuovo paragrafo" },
+      { icon: "🔍", text: "Nel browser di ricerca: avvia la ricerca" },
+      { icon: "📧", text: "In alcuni programmi di posta: invia il messaggio" },
+    ]
+  },
+  "Shift": {
+    title: "Shift — Maiuscole e simboli",
+    group: "Modificatore",
+    desc: "Il tasto Shift (ce ne sono due, uno a sinistra e uno a destra) serve a scrivere lettere <strong>maiuscole</strong> o i <strong>simboli</strong> in alto sui tasti.",
+    tips: [
+      { icon: "🔠", text: "Shift + lettera = lettera maiuscola" },
+      { icon: "!", text: "Shift + 1 = punto esclamativo !" },
+      { icon: "?", text: "Shift + tasto con simbolo = simbolo in alto" },
+      { icon: "💡", text: "Per una sola maiuscola: tieni Shift premuto mentre scrivi quella lettera" },
+    ]
+  },
+  "Ctrl": {
+    title: "Control (Ctrl) — Scorciatoie",
+    group: "Modificatore",
+    desc: "Il tasto Ctrl da solo non fa niente, ma combinato con altre lettere esegue <strong>comandi rapidi</strong> (scorciatoie). Impara queste quattro e sei già esperto!",
+    tips: [
+      { icon: "📋", text: "<strong>Ctrl + C</strong> — Copia il testo selezionato" },
+      { icon: "📌", text: "<strong>Ctrl + V</strong> — Incolla il testo copiato" },
+      { icon: "✂️", text: "<strong>Ctrl + X</strong> — Taglia (sposta) il testo selezionato" },
+      { icon: "↩️", text: "<strong>Ctrl + Z</strong> — Annulla l'ultima azione (errore? premi questo!)" },
+      { icon: "💾", text: "<strong>Ctrl + S</strong> — Salva il file" },
+      { icon: "🖨️", text: "<strong>Ctrl + P</strong> — Stampa" },
+    ]
+  },
+  "Alt": {
+    title: "Alt — Comandi alternativi",
+    group: "Modificatore",
+    desc: "Il tasto Alt attiva comandi alternativi nei programmi. La combinazione più utile è <strong>Alt + F4</strong> per chiudere una finestra.",
+    tips: [
+      { icon: "❌", text: "<strong>Alt + F4</strong> — Chiude il programma attivo" },
+      { icon: "🔄", text: "<strong>Alt + Tab</strong> — Passa tra i programmi aperti" },
+      { icon: "📷", text: "<strong>Alt + Stamp</strong> — Cattura uno screenshot della finestra attiva" },
+    ]
+  },
+  "Space": {
+    title: "Spazio — La barra spaziatrice",
+    group: "Tasto fondamentale",
+    desc: "La barra spaziatrice è il tasto più lungo della tastiera. Inserisce uno <strong>spazio</strong> tra le parole mentre scrivi.",
+    tips: [
+      { icon: "▶️", text: "Nei video online: mette in pausa o riprende il video" },
+      { icon: "📜", text: "Nelle pagine web: scorre la pagina verso il basso" },
+      { icon: "💡", text: "Ogni volta che finisci una parola, premi lo Spazio prima di iniziare la prossima" },
+    ]
+  },
+  "Delete": {
+    title: "Delete (Canc) — Cancella a destra",
+    group: "Cancellazione",
+    desc: "Il tasto Delete (o Canc) cancella il carattere <strong>a destra</strong> del cursore. È il contrario di Backspace.",
+    tips: [
+      { icon: "➡️", text: "Cancella il carattere dopo il cursore" },
+      { icon: "🗑️", text: "Se hai selezionato un file: lo manda nel Cestino" },
+      { icon: "💡", text: "Backspace = cancella quello che ho appena scritto · Delete = cancella quello che viene dopo" },
+    ]
+  },
+  "Insert": {
+    title: "Insert — Inserimento / Sovrascrittura",
+    group: "Tasto speciale",
+    desc: "Il tasto Insert cambia la <strong>modalità di scrittura</strong>. Normalmente il testo si inserisce spostando quello dopo. Se premi Insert, il nuovo testo sovrascrive quello esistente.",
+    tips: [
+      { icon: "⚠️", text: "Se mentre scrivi il testo sparisce da solo, hai premuto Insert per sbaglio!" },
+      { icon: "💡", text: "Premi di nuovo Insert per tornare alla modalità normale" },
+    ]
+  },
+  "Home": {
+    title: "Home — Vai all'inizio",
+    group: "Navigazione",
+    desc: "Il tasto Home sposta il cursore all'<strong>inizio della riga</strong> corrente nel testo.",
+    tips: [
+      { icon: "⬅️", text: "Porta il cursore all'inizio della riga" },
+      { icon: "🔝", text: "Ctrl + Home: va all'inizio del documento" },
+      { icon: "🌐", text: "Nelle pagine web: torna in cima alla pagina" },
+    ]
+  },
+  "End": {
+    title: "End — Vai alla fine",
+    group: "Navigazione",
+    desc: "Il tasto End sposta il cursore alla <strong>fine della riga</strong> corrente nel testo.",
+    tips: [
+      { icon: "➡️", text: "Porta il cursore alla fine della riga" },
+      { icon: "⬇️", text: "Ctrl + End: va alla fine del documento" },
+      { icon: "🌐", text: "Nelle pagine web: scorre fino in fondo alla pagina" },
+    ]
+  },
+  "PgUp": {
+    title: "Page Up — Scorri su",
+    group: "Navigazione",
+    desc: "Il tasto Page Up (Pagina Su) scorre il contenuto <strong>verso l'alto</strong> di una pagina intera.",
+    tips: [
+      { icon: "⬆️", text: "Scorre velocemente verso l'alto in un documento o pagina web" },
+      { icon: "💡", text: "Utile per rileggersi testi lunghi senza usare il mouse" },
+    ]
+  },
+  "PgDn": {
+    title: "Page Down — Scorri giù",
+    group: "Navigazione",
+    desc: "Il tasto Page Down (Pagina Giù) scorre il contenuto <strong>verso il basso</strong> di una pagina intera.",
+    tips: [
+      { icon: "⬇️", text: "Scorre velocemente verso il basso in un documento o pagina web" },
+      { icon: "💡", text: "Utile per leggere testi lunghi senza cliccare continuamente sulla barra di scorrimento" },
+    ]
+  },
+  "Win": {
+    title: "Tasto Windows — Il menù Start",
+    group: "Tasto speciale",
+    desc: "Il tasto Windows (con il logo di Windows) apre il <strong>menu Start</strong>, da dove puoi aprire tutti i programmi.",
+    tips: [
+      { icon: "🪟", text: "Premi per aprire/chiudere il menu Start" },
+      { icon: "🔍", text: "Win + S: apre la ricerca di Windows" },
+      { icon: "🖥️", text: "Win + D: mostra il desktop" },
+      { icon: "🔒", text: "Win + L: blocca il computer (utile quando ti allontani)" },
+    ]
+  },
+  "PrtSc": {
+    title: "Print Screen — Fotografia dello schermo",
+    group: "Tasto speciale",
+    desc: "Il tasto Print Screen (o Stamp) fa uno <strong>screenshot</strong>: fotografa tutto quello che vedi sullo schermo.",
+    tips: [
+      { icon: "📷", text: "Cattura l'intera schermata e la copia negli appunti" },
+      { icon: "📌", text: "Dopo aver premuto PrtSc, apri Paint e premi Ctrl+V per vederla" },
+      { icon: "🪟", text: "Win + Stamp: salva lo screenshot direttamente nella cartella Immagini" },
+    ]
+  },
+  "↑": {
+    title: "Freccia Su",
+    group: "Frecce di navigazione",
+    desc: "La freccia su sposta il cursore di una riga <strong>verso l'alto</strong> nel testo, oppure scorre verso l'alto.",
+    tips: [
+      { icon: "⬆️", text: "Nel testo: sposta il cursore alla riga sopra" },
+      { icon: "🌐", text: "Nelle pagine web: scorre leggermente verso l'alto" },
+      { icon: "📋", text: "Nei menu: seleziona l'elemento precedente" },
+    ]
+  },
+  "↓": {
+    title: "Freccia Giù",
+    group: "Frecce di navigazione",
+    desc: "La freccia giù sposta il cursore di una riga <strong>verso il basso</strong> nel testo, oppure scorre verso il basso.",
+    tips: [
+      { icon: "⬇️", text: "Nel testo: sposta il cursore alla riga sotto" },
+      { icon: "🌐", text: "Nelle pagine web: scorre leggermente verso il basso" },
+      { icon: "📋", text: "Nei menu: seleziona l'elemento successivo" },
+    ]
+  },
+  "←": {
+    title: "Freccia Sinistra",
+    group: "Frecce di navigazione",
+    desc: "La freccia sinistra sposta il cursore di un carattere verso <strong>sinistra</strong>.",
+    tips: [
+      { icon: "⬅️", text: "Sposta il cursore di un carattere a sinistra" },
+      { icon: "📝", text: "Ctrl + ← sposta il cursore di una parola intera a sinistra" },
+    ]
+  },
+  "→": {
+    title: "Freccia Destra",
+    group: "Frecce di navigazione",
+    desc: "La freccia destra sposta il cursore di un carattere verso <strong>destra</strong>.",
+    tips: [
+      { icon: "➡️", text: "Sposta il cursore di un carattere a destra" },
+      { icon: "📝", text: "Ctrl + → sposta il cursore di una parola intera a destra" },
+    ]
+  },
+  // Generic letters
+  "A": { title: "Lettera A", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>a</strong> (minuscola) oppure <strong>A</strong> (maiuscola con Shift o Caps Lock). <br><br>Scorciatoia utile: <strong>Ctrl+A</strong> = Seleziona tutto.", tips: [{ icon: "✏️", text: "Minuscolo: tasto normale · Maiuscolo: tieni Shift premuto" }, { icon: "💡", text: "Ctrl + A: seleziona tutto il testo del documento" }] },
+  "C": { title: "Lettera C", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>c</strong>. Scorciatoia fondamentale: <strong>Ctrl+C</strong> = Copia.", tips: [{ icon: "📋", text: "Ctrl + C: copia il testo selezionato" }, { icon: "💡", text: "Seleziona prima il testo, poi premi Ctrl+C" }] },
+  "V": { title: "Lettera V", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>v</strong>. Scorciatoia fondamentale: <strong>Ctrl+V</strong> = Incolla.", tips: [{ icon: "📌", text: "Ctrl + V: incolla il testo precedentemente copiato" }, { icon: "💡", text: "Prima copia (Ctrl+C), poi incolla dove vuoi (Ctrl+V)" }] },
+  "X": { title: "Lettera X", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>x</strong>. Scorciatoia: <strong>Ctrl+X</strong> = Taglia.", tips: [{ icon: "✂️", text: "Ctrl + X: taglia il testo (lo copia e lo rimuove)" }, { icon: "💡", text: "Usa Taglia quando vuoi spostare del testo da un posto all'altro" }] },
+  "Z": { title: "Lettera Z", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>z</strong>. Scorciatoia fondamentale: <strong>Ctrl+Z</strong> = Annulla.", tips: [{ icon: "↩️", text: "Ctrl + Z: annulla l'ultima azione — il tuo migliore amico!" }, { icon: "💡", text: "Puoi premere Ctrl+Z più volte per tornare indietro di più passi" }] },
+  "S": { title: "Lettera S", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>s</strong>. Scorciatoia: <strong>Ctrl+S</strong> = Salva il file.", tips: [{ icon: "💾", text: "Ctrl + S: salva il documento — usalo spesso!" }, { icon: "💡", text: "Abitudine consigliata: premi Ctrl+S ogni 5 minuti mentre lavori" }] },
+  "P": { title: "Lettera P", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>p</strong>. Scorciatoia: <strong>Ctrl+P</strong> = Stampa.", tips: [{ icon: "🖨️", text: "Ctrl + P: apre la finestra di stampa" }] },
+};
+
+// Generate a fallback for generic letters/numbers
+function getKeyInfo(keyId) {
+  if (keyData[keyId]) return keyData[keyId];
+  // Generic function keys
+  if (/^F\d+$/.test(keyId)) {
+    return {
+      title: `Tasto ${keyId}`,
+      group: "Tasto funzione",
+      desc: `Il tasto <strong>${keyId}</strong> è un tasto funzione. Il suo effetto cambia a seconda del programma che stai usando. In molti programmi non fa niente di particolare.`,
+      tips: [{ icon: "💡", text: "Ogni programma può usare i tasti funzione in modo diverso" }]
+    };
+  }
+  // Generic letter
+  if (/^[A-Z]$/.test(keyId)) {
+    return {
+      title: `Lettera ${keyId}`,
+      group: "Tasto alfabetico",
+      desc: `Premendo questo tasto scrivi la lettera <strong>${keyId.toLowerCase()}</strong> (minuscola) oppure <strong>${keyId}</strong> maiuscola tenendo premuto Shift o con Caps Lock attivo.`,
+      tips: [
+        { icon: "✏️", text: "Lettera minuscola: tasto normale" },
+        { icon: "🔠", text: "Lettera maiuscola: tieni Shift premuto mentre premi il tasto" },
+      ]
+    };
+  }
+  // Numbers
+  if (/^\d$/.test(keyId)) {
+    return {
+      title: `Numero ${keyId}`,
+      group: "Tasto numero",
+      desc: `Premendo questo tasto scrivi il numero <strong>${keyId}</strong>. Tenendo premuto Shift, otterrai il simbolo speciale indicato in alto sul tasto.`,
+      tips: [{ icon: "🔢", text: `Tasto normale: ${keyId}` }, { icon: "🔣", text: "Shift + questo tasto: simbolo speciale (!, @, #…)" }]
+    };
+  }
+  return {
+    title: keyId,
+    group: "Tasto",
+    desc: `Questo è il tasto <strong>${keyId}</strong>. Clicca per scoprire la sua funzione.`,
+    tips: []
+  };
+}
+
+// ═══════════════════════════════════════════════
+//  BUILD KEYBOARD
+// ═══════════════════════════════════════════════
+
+function makeKey(label, sub, cls, id) {
+  const k = document.createElement('div');
+  k.className = 'key ' + (cls || '');
+  k.dataset.keyid = id || label;
+  const l = document.createElement('span');
+  l.className = 'key-label';
+  l.textContent = label;
+  k.appendChild(l);
+  if (sub) {
+    const s = document.createElement('span');
+    s.className = 'key-sub';
+    s.textContent = sub;
+    k.appendChild(s);
+  }
+  k.addEventListener('click', () => onKeyClick(k, id || label));
+  return k;
+}
+
+function gap() {
+  const g = document.createElement('div');
+  g.className = 'kb-gap';
+  return g;
+}
+
+// Row 0: Esc + F1-F12 + PrtSc Scroll Pause
+const row0 = document.getElementById('row0');
+row0.appendChild(makeKey('Esc','','danger-key','Esc'));
+row0.appendChild(gap());
+['F1','F2','F3','F4'].forEach(f => row0.appendChild(makeKey(f,'','fn-key',f)));
+row0.appendChild(gap());
+['F5','F6','F7','F8'].forEach(f => row0.appendChild(makeKey(f,'','fn-key',f)));
+row0.appendChild(gap());
+['F9','F10','F11','F12'].forEach(f => row0.appendChild(makeKey(f,'','fn-key',f)));
+row0.appendChild(gap());
+row0.appendChild(makeKey('Stamp','PrtSc','nav-key','PrtSc'));
+row0.appendChild(makeKey('Scorr','ScrLk','nav-key','ScrLk'));
+row0.appendChild(makeKey('Pausa','Pause','nav-key','Pause'));
+
+// Row 1: Numbers
+const row1 = document.getElementById('row1');
+const nums = [
+  {t:'\\',s:'|'},{t:'1',s:'!'},{t:'2',s:'"'},{t:'3',s:'£'},
+  {t:'4',s:'$'},{t:'5',s:'%'},{t:'6',s:'&'},{t:'7',s:'/'},
+  {t:'8',s:'('},{t:'9',s:')'},{t:'0',s:'='},{t:"'",s:'?'},
+  {t:'ì',s:'^'},{t:'é',s:'~'},{t:'Backspace',s:''}
+];
+nums.forEach(n => {
+  const id = n.t === 'Backspace' ? 'Backspace' : (n.t.match(/\d/) ? n.t : n.t);
+  const cls = n.t === 'Backspace' ? 'w-backspace danger-key' : '';
+  row1.appendChild(makeKey(n.t, n.s, cls, id));
+});
+
+// Row 2: QWERTY
+const row2 = document.getElementById('row2');
+row2.appendChild(makeKey('Tab','','mod-key w-tab','Tab'));
+['Q','W','E','R','T','Y','U','I','O','P'].forEach(l => row2.appendChild(makeKey(l,'','',l)));
+['{ì',']'].forEach(s => row2.appendChild(makeKey(s)));
+row2.appendChild(makeKey('+','*','',''));
+
+// Row 3: ASDF
+const row3 = document.getElementById('row3');
+row3.appendChild(makeKey('Caps Lock','','mod-key w-caps','CapsLock'));
+['A','S','D','F','G','H','J','K','L'].forEach(l => row3.appendChild(makeKey(l,'','',l)));
+[';',':','à'].forEach(s => row3.appendChild(makeKey(s)));
+row3.appendChild(makeKey('Invio','Enter','mod-key w-enter','Enter'));
+
+// Row 4: ZXCV
+const row4 = document.getElementById('row4');
+row4.appendChild(makeKey('⇧ Shift','','mod-key w-lshift','Shift'));
+['Z','X','C','V','B','N','M'].forEach(l => row4.appendChild(makeKey(l,'','',l)));
+[',','.','?'].forEach(s => row4.appendChild(makeKey(s)));
+row4.appendChild(makeKey('⇧ Shift','','mod-key w-rshift','Shift'));
+
+// Row 5: Bottom
+const row5 = document.getElementById('row5');
+row5.appendChild(makeKey('Ctrl','','mod-key w-lctrl','Ctrl'));
+row5.appendChild(makeKey('⊞ Win','','mod-key w-win','Win'));
+row5.appendChild(makeKey('Alt','','mod-key','Alt'));
+row5.appendChild(makeKey('','Spazio','space-key w-space','Space'));
+row5.appendChild(makeKey('AltGr','','mod-key','Alt'));
+row5.appendChild(makeKey('⊞ Win','','mod-key w-win','Win'));
+row5.appendChild(makeKey('☰','Menu','mod-key',''));
+row5.appendChild(makeKey('Ctrl','','mod-key w-rctrl','Ctrl'));
+
+// Nav block
+const row6 = document.getElementById('row6');
+// Insert Home PgUp / Delete End PgDn
+const navBlock = [
+  {t:'Ins',id:'Insert'},{t:'Home',id:'Home'},{t:'Pag↑',id:'PgUp'},
+  null,
+  {t:'Canc',id:'Delete'},{t:'End',id:'End'},{t:'Pag↓',id:'PgDn'},
+  null, null,
+  {t:'↑',id:'↑'},
+  null,
+  {t:'←',id:'←'},{t:'↓',id:'↓'},{t:'→',id:'→'},
+];
+navBlock.forEach(n => {
+  if (n === null) { row6.appendChild(makeKey(' ','','nav-key','')); return; }
+  row6.appendChild(makeKey(n.t,'','nav-key',n.id));
+});
+
+// ═══════════════════════════════════════════════
+//  CLICK HANDLER
+// ═══════════════════════════════════════════════
+let selectedKey = null;
+
+function onKeyClick(el, keyId) {
+  if (!keyId || keyId.trim() === '') return;
+
+  // Deselect old
+  if (selectedKey) selectedKey.classList.remove('selected');
+  el.classList.add('selected');
+  selectedKey = el;
+
+  const data = getKeyInfo(keyId);
+
+  document.getElementById('infoEmpty').style.display = 'none';
+  const content = document.getElementById('infoContent');
+  content.classList.add('visible');
+
+  document.getElementById('infoGroupTag').textContent = data.group;
+  document.getElementById('infoKeyBadge').textContent = keyId;
+  document.getElementById('infoTitle').textContent = data.title;
+  document.getElementById('infoDesc').innerHTML = data.desc;
+
+  const tipsEl = document.getElementById('infoTips');
+  tipsEl.innerHTML = '';
+  (data.tips || []).forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'tip-item';
+    div.innerHTML = `<span class="tip-icon">${t.icon}</span><span>${t.text}</span>`;
+    tipsEl.appendChild(div);
+  });
+
+  // Animate panel
+  const panel = document.getElementById('infoPanel');
+  panel.style.transform = 'scale(0.97)';
+  panel.style.opacity = '0.7';
+  setTimeout(() => {
+    panel.style.transform = 'scale(1)';
+    panel.style.opacity = '1';
+  }, 120);
+
+  // On mobile scroll to panel
+  if (window.innerWidth < 1100) {
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+</script>
+</body>
+</html>
