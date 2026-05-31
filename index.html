@@ -160,6 +160,13 @@ header p {
   line-height: 1;
   pointer-events: none;
 }
+.key .key-altgr {
+  font-size: 9px;
+  color: #00bfa0;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0.85;
+}
 
 /* Special key color groups */
 .key.fn-key .key-label { color: #88bbff; font-size: 11px; }
@@ -675,6 +682,123 @@ const keyData = {
     ]
   },
   // Generic letters
+  "é": {
+    title: "é / ~ / [ — Tasto con tre funzioni",
+    group: "Tasto lettera / simbolo",
+    desc: "Questo tasto scrive <strong>é</strong> (e con accento acuto). Con Shift si ottiene <strong>~</strong> (tilde). Con <strong>AltGr + é</strong> si ottiene la parentesi quadra <strong>[</strong>.",
+    tips: [
+      { icon: "✏️", text: "Tasto normale: é" },
+      { icon: "⬆️", text: "Shift + é = ~ (tilde, raramente usata)" },
+      { icon: "[", text: "<strong>AltGr + é = [</strong> (parentesi quadra aperta)" },
+      { icon: "💡", text: "AltGr è il tasto a destra della barra spaziatrice" },
+    ]
+  },
+  "[": {
+    title: "[ — Parentesi quadra aperta",
+    group: "Tasto simbolo (AltGr)",
+    desc: "La parentesi quadra <strong>[</strong> si ottiene premendo <strong>AltGr + é</strong> sulla tastiera italiana (il tasto con é nella prima riga, vicino al Backspace).",
+    tips: [
+      { icon: "⌨️", text: "Combinazione: AltGr (tasto a destra dello spazio) + é" },
+      { icon: "💻", text: "Usata spesso in programmazione e nelle formule di Excel" },
+      { icon: "💡", text: "La parentesi quadra chiusa ] si trova con AltGr + 9" },
+    ]
+  },
+  "]": {
+    title: "] — Parentesi quadra chiusa",
+    group: "Tasto simbolo (AltGr)",
+    desc: "La parentesi quadra chiusa <strong>]</strong> si ottiene premendo <strong>AltGr + 9</strong> sulla tastiera italiana.",
+    tips: [
+      { icon: "⌨️", text: "Combinazione: AltGr + 9" },
+      { icon: "💻", text: "Usata in coppia con [ in programmazione e formule" },
+    ]
+  },
+  "{": {
+    title: "{ — Parentesi graffa aperta",
+    group: "Tasto simbolo (AltGr)",
+    desc: "La parentesi graffa <strong>{</strong> si ottiene premendo <strong>AltGr + 7</strong> sulla tastiera italiana.",
+    tips: [
+      { icon: "⌨️", text: "Combinazione: AltGr (tasto a destra dello spazio) + 7" },
+      { icon: "💻", text: "Molto usata in programmazione (es. per blocchi di codice)" },
+      { icon: "💡", text: "La parentesi graffa chiusa } si trova con AltGr + 0" },
+    ]
+  },
+  "}": {
+    title: "} — Parentesi graffa chiusa",
+    group: "Tasto simbolo (AltGr)",
+    desc: "La parentesi graffa chiusa <strong>}</strong> si ottiene premendo <strong>AltGr + 0</strong> sulla tastiera italiana.",
+    tips: [
+      { icon: "⌨️", text: "Combinazione: AltGr + 0" },
+      { icon: "💻", text: "Usata in coppia con { in programmazione" },
+    ]
+  },
+  "è": {
+    title: "è — Vocale accentata",
+    group: "Tasto lettera / simbolo",
+    desc: "Scrive la lettera <strong>è</strong> (e con accento grave). Con Shift scrive il simbolo <strong>*</strong> (asterisco). Con AltGr si possono ottenere altri simboli.",
+    tips: [
+      { icon: "✏️", text: "Tasto normale: è — usata spesso in italiano (es. caffè, perché, cioè)" },
+      { icon: "✳️", text: "Shift + è = * (asterisco, usato per elenchi o moltiplicazione)" },
+    ]
+  },
+  "ò": {
+    title: "ò / @ — Vocale accentata e chiocciola",
+    group: "Tasto lettera / simbolo",
+    desc: "Scrive la lettera <strong>ò</strong> (o con accento grave). La <strong>@</strong> (chiocciola), usata nelle email, si ottiene con <strong>AltGr + ò</strong>.",
+    tips: [
+      { icon: "✏️", text: "Tasto normale: ò — es. però, così, però" },
+      { icon: "@", text: "<strong>AltGr + ò = @</strong> — la chiocciola delle email!" },
+      { icon: "📧", text: "Esempio: mario.rossi<strong>@</strong>gmail.com — la @ separa nome e dominio" },
+      { icon: "💡", text: "AltGr è il tasto a destra della barra spaziatrice" },
+    ]
+  },
+  "à": {
+    title: "à — Vocale accentata",
+    group: "Tasto lettera / simbolo",
+    desc: "Scrive la lettera <strong>à</strong> (a con accento grave). Con Shift si ottiene il simbolo <strong>#</strong> (cancelletto).",
+    tips: [
+      { icon: "✏️", text: "Tasto normale: à — es. città, libertà, qualità" },
+      { icon: "#", text: "Shift + à = # (cancelletto, usato sui social media per gli hashtag)" },
+    ]
+  },
+  "<": {
+    title: "< > — Minore e Maggiore",
+    group: "Tasto simbolo",
+    desc: "Questo tasto produce <strong>&lt;</strong> (minore di) oppure <strong>&gt;</strong> (maggiore di) con Shift. Si trova tra il Shift sinistro e la Z.",
+    tips: [
+      { icon: "◀️", text: "Tasto normale: < (minore di)" },
+      { icon: "▶️", text: "Shift + < = > (maggiore di)" },
+      { icon: "💡", text: "Usati in matematica, programmazione e confronti" },
+    ]
+  },
+  ",": {
+    title: ", e ; — Virgola e Punto e virgola",
+    group: "Tasto punteggiatura",
+    desc: "Scrive la <strong>virgola</strong> (,) oppure il <strong>punto e virgola</strong> (;) con Shift. Tra i segni di punteggiatura più usati.",
+    tips: [
+      { icon: "✏️", text: "Tasto normale: , (virgola) — separa le parole in un elenco" },
+      { icon: "⬆️", text: "Shift + , = ; (punto e virgola)" },
+    ]
+  },
+  ".": {
+    title: ". e : — Punto e Due punti",
+    group: "Tasto punteggiatura",
+    desc: "Scrive il <strong>punto</strong> (.) oppure i <strong>due punti</strong> (:) con Shift.",
+    tips: [
+      { icon: "✏️", text: "Tasto normale: . (punto) — chiude una frase" },
+      { icon: "⬆️", text: "Shift + . = : (due punti)" },
+      { icon: "🌐", text: "I punti separano le parti di un indirizzo web (es. www.google.com)" },
+    ]
+  },
+  "-": {
+    title: "- e _ — Trattino e Sottolineato",
+    group: "Tasto simbolo",
+    desc: "Scrive il <strong>trattino</strong> (-) oppure il <strong>trattino basso / underscore</strong> (_) con Shift.",
+    tips: [
+      { icon: "➖", text: "Tasto normale: - (trattino) — separa parole o indica un intervallo" },
+      { icon: "⬆️", text: "Shift + - = _ (underscore, il trattino basso)" },
+      { icon: "🌐", text: "L'underscore si usa spesso nei nomi utente e nelle email (es. mario_rossi)" },
+    ]
+  },
   "A": { title: "Lettera A", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>a</strong> (minuscola) oppure <strong>A</strong> (maiuscola con Shift o Caps Lock). <br><br>Scorciatoia utile: <strong>Ctrl+A</strong> = Seleziona tutto.", tips: [{ icon: "✏️", text: "Minuscolo: tasto normale · Maiuscolo: tieni Shift premuto" }, { icon: "💡", text: "Ctrl + A: seleziona tutto il testo del documento" }] },
   "C": { title: "Lettera C", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>c</strong>. Scorciatoia fondamentale: <strong>Ctrl+C</strong> = Copia.", tips: [{ icon: "📋", text: "Ctrl + C: copia il testo selezionato" }, { icon: "💡", text: "Seleziona prima il testo, poi premi Ctrl+C" }] },
   "V": { title: "Lettera V", group: "Tasto alfabetico", desc: "Scrive la lettera <strong>v</strong>. Scorciatoia fondamentale: <strong>Ctrl+V</strong> = Incolla.", tips: [{ icon: "📌", text: "Ctrl + V: incolla il testo precedentemente copiato" }, { icon: "💡", text: "Prima copia (Ctrl+C), poi incolla dove vuoi (Ctrl+V)" }] },
@@ -729,7 +853,7 @@ function getKeyInfo(keyId) {
 //  BUILD KEYBOARD
 // ═══════════════════════════════════════════════
 
-function makeKey(label, sub, cls, id) {
+function makeKey(label, sub, cls, id, altgr) {
   const k = document.createElement('div');
   k.className = 'key ' + (cls || '');
   k.dataset.keyid = id || label;
@@ -742,6 +866,12 @@ function makeKey(label, sub, cls, id) {
     s.className = 'key-sub';
     s.textContent = sub;
     k.appendChild(s);
+  }
+  if (altgr) {
+    const a = document.createElement('span');
+    a.className = 'key-altgr';
+    a.textContent = altgr;
+    k.appendChild(a);
   }
   k.addEventListener('click', () => onKeyClick(k, id || label));
   return k;
@@ -771,36 +901,40 @@ row0.appendChild(makeKey('Pausa','Pause','nav-key','Pause'));
 const row1 = document.getElementById('row1');
 const nums = [
   {t:'\\',s:'|'},{t:'1',s:'!'},{t:'2',s:'"'},{t:'3',s:'£'},
-  {t:'4',s:'$'},{t:'5',s:'%'},{t:'6',s:'&'},{t:'7',s:'/'},
-  {t:'8',s:'('},{t:'9',s:')'},{t:'0',s:'='},{t:"'",s:'?'},
-  {t:'ì',s:'^'},{t:'é',s:'~'},{t:'Backspace',s:''}
+  {t:'4',s:'$'},{t:'5',s:'%'},{t:'6',s:'&'},{t:'7',s:'/',ag:'{'},
+  {t:'8',s:'(',ag:''},{t:'9',s:')',ag:']'},{t:'0',s:'=',ag:'}'},
+  {t:"'",s:'?'},{t:'ì',s:'^'},{t:'é',s:'~',ag:'['},{t:'Backspace',s:''}
 ];
 nums.forEach(n => {
-  const id = n.t === 'Backspace' ? 'Backspace' : (n.t.match(/\d/) ? n.t : n.t);
+  const id = n.t === 'Backspace' ? 'Backspace' : n.t;
   const cls = n.t === 'Backspace' ? 'w-backspace danger-key' : '';
-  row1.appendChild(makeKey(n.t, n.s, cls, id));
+  row1.appendChild(makeKey(n.t, n.s, cls, id, n.ag || ''));
 });
 
 // Row 2: QWERTY
 const row2 = document.getElementById('row2');
 row2.appendChild(makeKey('Tab','','mod-key w-tab','Tab'));
 ['Q','W','E','R','T','Y','U','I','O','P'].forEach(l => row2.appendChild(makeKey(l,'','',l)));
-['{ì',']'].forEach(s => row2.appendChild(makeKey(s)));
-row2.appendChild(makeKey('+','*','',''));
+row2.appendChild(makeKey('è','*','','è'));
+row2.appendChild(makeKey('+',']','','+'));
 
 // Row 3: ASDF
 const row3 = document.getElementById('row3');
-row3.appendChild(makeKey('Caps Lock','','mod-key w-caps','CapsLock'));
+row3.appendChild(makeKey('Block Maiusc','','mod-key w-caps','CapsLock'));
 ['A','S','D','F','G','H','J','K','L'].forEach(l => row3.appendChild(makeKey(l,'','',l)));
-[';',':','à'].forEach(s => row3.appendChild(makeKey(s)));
+row3.appendChild(makeKey('ò','@','','ò'));
+row3.appendChild(makeKey('à','#','','à'));
 row3.appendChild(makeKey('Invio','Enter','mod-key w-enter','Enter'));
 
 // Row 4: ZXCV
 const row4 = document.getElementById('row4');
-row4.appendChild(makeKey('⇧ Shift','','mod-key w-lshift','Shift'));
+row4.appendChild(makeKey('⇧ Maiusc','','mod-key w-lshift','Shift'));
+row4.appendChild(makeKey('<','>','','<'));
 ['Z','X','C','V','B','N','M'].forEach(l => row4.appendChild(makeKey(l,'','',l)));
-[',','.','?'].forEach(s => row4.appendChild(makeKey(s)));
-row4.appendChild(makeKey('⇧ Shift','','mod-key w-rshift','Shift'));
+row4.appendChild(makeKey(',',';','',','));
+row4.appendChild(makeKey('.',':','','.'));
+row4.appendChild(makeKey('-','_','','-'));
+row4.appendChild(makeKey('⇧ Maiusc','','mod-key w-rshift','Shift'));
 
 // Row 5: Bottom
 const row5 = document.getElementById('row5');
